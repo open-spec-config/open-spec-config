@@ -1,2 +1,2 @@
 # open-spec-config
-A unified config library for speculative decoding draft models.
+Open Spec Config is a shared config format started by maintainers of [Speculators](https://github.com/vllm-project/speculators) and [SpecForge](https://github.com/sgl-project/SpecForge). It's open to everyone. Our goal is simple: any drafter model that uses this config should run successfully in both SGLang and vLLM, no matter where it was trained. This repository is only for defining and maintaining that shared config.
