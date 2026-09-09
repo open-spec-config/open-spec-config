@@ -24,7 +24,7 @@
       "sliding_window_non_causal": "whether to use non-causal sliding window, e.g. false",
       "mask_token_id": "ID of the mask token, e.g. 151669"
     },
-    "speculative_library": "name of the training library, e.g. vllm-project/speculators",
+    "speculative_library": "name of the training library, e.g. vllm-project/speculators, sgl-project/SpecForge",
     "speculative_library_version": "version of the training library, e.g. 0.7.0"
   },
   "attention_bias": false,
