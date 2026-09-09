@@ -1,0 +1,64 @@
+{
+  "open_spec_config_version": "version of open-spec-config library, e.g. 0.0.0",
+  "architectures": [
+    "DflashDraftModel"
+  ],
+  "auto_map": {
+    "": ""
+  },
+  "speculative_config": {
+    "method": "dflash",
+    "speculative_tokens": "number of speculative tokens to generate per turn e.g. 8",
+    "verifier": "(optional) name of verifier model, e.g. Qwen/Qwen3.6-35B-A3B",
+    "target_layer_ids": [
+      2,
+      10,
+      20,
+      30,
+      37
+    ],
+    "target_layer_start_idx": "index of the first target layer, e.g. 0",
+    "draft_vocab_size": "(optional) size of the draft vocabulary, e.g. 32000",
+    "dflash_config": {
+      "sample_from_anchor": "whether to sample from the anchor token, e.g. true",
+      "sliding_window_non_causal": "whether to use non-causal sliding window, e.g. false",
+      "mask_token_id": "ID of the mask token, e.g. 151669"
+    },
+    "speculative_library": "name of the training library, e.g. vllm-project/speculators",
+    "speculative_library_version": "version of the training library, e.g. 0.7.0"
+  },
+  "attention_bias": false,
+  "attention_dropout": 0.0,
+  "bos_token_id": null,
+  "eos_token_id": null,
+  "head_dim": 128,
+  "hidden_act": "silu",
+  "hidden_size": 2560,
+  "initializer_range": 0.02,
+  "intermediate_size": 9728,
+  "layer_types": [
+    "sliding_attention",
+    "sliding_attention",
+    "sliding_attention",
+    "sliding_attention",
+    "sliding_attention"
+  ],
+  "max_position_embeddings": 40960,
+  "max_window_layers": 28,
+  "model_type": "qwen3",
+  "num_attention_heads": 32,
+  "num_hidden_layers": 5,
+  "num_key_value_heads": 8,
+  "pad_token_id": null,
+  "rms_norm_eps": 1e-06,
+  "rope_parameters": {
+    "rope_theta": 1000000,
+    "rope_type": "default"
+  },
+  "sliding_window": 2048,
+  "tie_word_embeddings": false,
+  "transformers_version": "5.12.0",
+  "use_cache": true,
+  "use_sliding_window": true,
+  "vocab_size": 151936
+}
