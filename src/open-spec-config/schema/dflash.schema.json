@@ -72,7 +72,7 @@
         },
         "speculative_library": {
           "type": "string",
-          "description": "Library used to train or implement the speculative model."
+          "description": "Library used to train or implement the speculative model. For example, vllm-project/speculators, sgl-project/SpecForge."
         },
         "speculative_library_version": {
           "type": "string",
