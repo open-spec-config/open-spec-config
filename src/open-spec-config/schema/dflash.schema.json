@@ -1,0 +1,215 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Open Speculative Model Configuration",
+  "description": "Schema for a speculative decoding dflash draft model configuration with a Qwen3 transformer architecture.",
+  "type": "object",
+  "properties": {
+    "open_spec_config_version": {
+      "type": "string",
+      "description": "Version of the open speculative-model configuration format."
+    },
+    "architectures": {
+      "type": "array",
+      "description": "Model implementation classes that can load this configuration.",
+      "items": {
+        "type": "string",
+        "description": "A model implementation class name."
+      }
+    },
+    "auto_map": {
+      "type": "object",
+      "description": "Mapping from auto-model class names to custom implementation import paths."
+    },
+    "speculative_config": {
+      "type": "object",
+      "description": "Configuration for speculative token generation and verification.",
+      "properties": {
+        "method": {
+          "type": "string",
+          "description": "Speculative decoding algorithm identifier, such as dflash or dspark."
+        },
+        "speculative_tokens": {
+          "type": "integer",
+          "description": "Number of speculative tokens generated per decoding turn."
+        },
+        "verifier": {
+          "type": "string",
+          "description": "Optional model identifier for the verifier model."
+        },
+        "target_layer_ids": {
+          "type": "array",
+          "description": "Verifier hidden-state layer indices consumed by the draft model.",
+          "items": {
+            "type": "integer",
+            "description": "A zero-based verifier layer index."
+          }
+        },
+        "target_layer_start_idx": {
+          "type": "integer",
+          "description": "Index of the first target layer used by the draft model. 0 or 1."
+        },
+        "draft_vocab_size": {
+          "type": "integer",
+          "description": "Optional size of the reduced vocabulary used by the draft model."
+        },
+        "dflash_config": {
+          "type": "object",
+          "description": "DFlash draft-generation settings.",
+          "properties": {
+            "sample_from_anchor": {
+              "type": "boolean",
+              "description": "Whether token sampling may start from the anchor token."
+            },
+            "sliding_window_non_causal": {
+              "type": "boolean",
+              "description": "Whether draft sliding-window attention may attend non-causally within its window."
+            },
+            "mask_token_id": {
+              "type": "integer",
+              "description": "Vocabulary ID of the mask token used during draft generation."
+            }
+          }
+        },
+        "speculative_library": {
+          "type": "string",
+          "description": "Library used to train or implement the speculative model."
+        },
+        "speculative_library_version": {
+          "type": "string",
+          "description": "Version of the speculative-model library."
+        }
+      }
+    },
+    "attention_bias": {
+      "type": "boolean",
+      "description": "Whether self-attention projection layers use bias parameters."
+    },
+    "attention_dropout": {
+      "type": "number",
+      "description": "Dropout probability applied to attention probabilities."
+    },
+    "bos_token_id": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "description": "Beginning-of-sequence token ID, or null when one is not configured."
+    },
+    "eos_token_id": {
+      "type": [
+        "integer",
+        "array",
+        "null"
+      ],
+      "description": "End-of-sequence token ID or IDs, or null when none are configured.",
+      "items": {
+        "type": "integer",
+        "description": "An end-of-sequence token ID."
+      }
+    },
+    "head_dim": {
+      "type": "integer",
+      "description": "Dimension of each attention head."
+    },
+    "hidden_act": {
+      "type": "string",
+      "description": "Activation function used by the feed-forward network."
+    },
+    "hidden_size": {
+      "type": "integer",
+      "description": "Width of the transformer hidden representations."
+    },
+    "initializer_range": {
+      "type": "number",
+      "description": "Standard deviation used when initializing model weights."
+    },
+    "intermediate_size": {
+      "type": "integer",
+      "description": "Width of the feed-forward network's intermediate representation."
+    },
+    "layer_types": {
+      "type": "array",
+      "description": "Attention implementation for each draft transformer layer.",
+      "items": {
+        "type": "string",
+        "description": "The attention implementation used by one layer."
+      }
+    },
+    "max_position_embeddings": {
+      "type": "integer",
+      "description": "Maximum sequence length represented by the model's positional encoding."
+    },
+    "max_window_layers": {
+      "type": "integer",
+      "description": "Number of initial layers using full attention before sliding-window attention begins."
+    },
+    "model_type": {
+      "type": "string",
+      "description": "Transformers model-family identifier."
+    },
+    "num_attention_heads": {
+      "type": "integer",
+      "description": "Number of query attention heads per transformer layer."
+    },
+    "num_hidden_layers": {
+      "type": "integer",
+      "description": "Number of transformer layers in the draft model."
+    },
+    "num_key_value_heads": {
+      "type": "integer",
+      "description": "Number of key/value heads used for grouped-query attention."
+    },
+    "pad_token_id": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "description": "Padding token ID, or null when one is not configured."
+    },
+    "rms_norm_eps": {
+      "type": "number",
+      "description": "Epsilon used by RMS normalization layers."
+    },
+    "rope_parameters": {
+      "type": "object",
+      "description": "Rotary positional embedding settings.",
+      "properties": {
+        "rope_theta": {
+          "type": "number",
+          "description": "Base period used by rotary positional embeddings."
+        },
+        "rope_type": {
+          "type": "string",
+          "description": "RoPE implementation or scaling strategy."
+        }
+      }
+    },
+    "sliding_window": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "description": "Sliding-attention window size, or null when sliding-window attention is disabled."
+    },
+    "tie_word_embeddings": {
+      "type": "boolean",
+      "description": "Whether input and output token embedding weights are shared."
+    },
+    "transformers_version": {
+      "type": "string",
+      "description": "Transformers library version used to serialize the configuration."
+    },
+    "use_cache": {
+      "type": "boolean",
+      "description": "Whether the model returns and consumes key/value caches during autoregressive decoding."
+    },
+    "use_sliding_window": {
+      "type": "boolean",
+      "description": "Whether sliding-window attention is enabled."
+    },
+    "vocab_size": {
+      "type": "integer",
+      "description": "Size of the model tokenizer vocabulary."
+    }
+  }
+}

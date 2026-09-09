@@ -1,5 +1,5 @@
 {
-  "open_spec_config_version": "version of open-spec-config library, e.g. 0.0.0",
+  "open_spec_config_version": "0.0.0",
   "architectures": [
     "DflashDraftModel"
   ],
@@ -7,9 +7,9 @@
     "": ""
   },
   "speculative_config": {
-    "method": "dflash",
-    "speculative_tokens": "number of speculative tokens to generate per turn e.g. 8",
-    "verifier": "(optional) name of verifier model, e.g. Qwen/Qwen3.6-35B-A3B",
+    "method": "dspark",
+    "speculative_tokens": 8,
+    "verifier": "Qwen/Qwen3.6-35B-A3B",
     "target_layer_ids": [
       2,
       10,
@@ -17,15 +17,15 @@
       30,
       37
     ],
-    "target_layer_start_idx": "index of the first target layer, e.g. 0",
-    "draft_vocab_size": "(optional) size of the draft vocabulary, e.g. 32000",
+    "target_layer_start_idx": 0,
+    "draft_vocab_size": 32000,
     "dflash_config": {
-      "sample_from_anchor": "whether to sample from the anchor token, e.g. true",
-      "sliding_window_non_causal": "whether to use non-causal sliding window, e.g. false",
-      "mask_token_id": "ID of the mask token, e.g. 151669"
+      "sample_from_anchor": true,
+      "mask_token_id": 248077,
+      "sliding_window_non_causal": false
     },
-    "speculative_library": "name of the training library, e.g. vllm-project/speculators, sgl-project/SpecForge",
-    "speculative_library_version": "version of the training library, e.g. 0.7.0"
+    "speculative_library": "vllm-project/speculators",
+    "speculative_library_version": "0.7.0"
   },
   "attention_bias": false,
   "attention_dropout": 0.0,
