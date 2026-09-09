@@ -39,6 +39,8 @@
         "target_layer_ids": {
           "type": "array",
           "description": "Verifier hidden-state layer indices consumed by the draft model.",
+          "minItems": 1,
+          "uniqueItems": true,
           "items": {
             "type": "integer",
             "description": "A zero-based verifier layer index."
