@@ -7,7 +7,7 @@
     "": ""
   },
   "speculative_config": {
-    "method": "dspark",
+    "method": "dflash",
     "speculative_tokens": 8,
     "verifier": "Qwen/Qwen3.6-35B-A3B",
     "target_layer_ids": [
