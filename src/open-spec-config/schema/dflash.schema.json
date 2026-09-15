@@ -1,24 +1,31 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Open Speculative Model Configuration",
-  "description": "Schema for a speculative decoding dflash draft model configuration with a Qwen3 transformer architecture.",
+  "description": "Schema for a DFlash speculative decoding draft model configuration. Architecture-specific model fields are accepted but not validated by Open Spec Config.",
   "type": "object",
   "properties": {
     "open_spec_config_version": {
       "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
       "description": "Version of the open speculative-model configuration format."
     },
     "architectures": {
       "type": "array",
       "description": "Model implementation classes that can load this configuration.",
+      "minItems": 1,
+      "uniqueItems": true,
       "items": {
         "type": "string",
-        "description": "A model implementation class name."
+        "minLength": 1,
+        "description": "A model implementation class name. e.g., DflashDraftModel."
       }
     },
     "auto_map": {
       "type": "object",
-      "description": "Mapping from auto-model class names to custom implementation import paths."
+      "description": "Mapping from auto-model class names to custom implementation import paths.",
+      "additionalProperties": {
+        "type": "string"
+      }
     },
     "speculative_config": {
       "type": "object",
@@ -26,14 +33,17 @@
       "properties": {
         "method": {
           "type": "string",
-          "description": "Speculative decoding algorithm identifier, such as dflash or dspark."
+          "const": "dflash",
+          "description": "Speculative decoding algorithm identifier. This schema supports DFlash."
         },
         "speculative_tokens": {
           "type": "integer",
-          "description": "Number of speculative tokens generated per decoding turn."
+          "minimum": 1,
+          "description": "Maximum number of candidate tokens the draft model can propose for verification in one decoding step, excluding the existing anchor. At runtime may request fewer tokens."
         },
         "verifier": {
           "type": "string",
+          "minLength": 1,
           "description": "Optional model identifier for the verifier model."
         },
         "target_layer_ids": {
@@ -43,15 +53,21 @@
           "uniqueItems": true,
           "items": {
             "type": "integer",
-            "description": "A zero-based verifier layer index."
+            "minimum": 0,
+            "description": "A verifier layer index interpreted according to target_layer_start_idx."
           }
         },
         "target_layer_start_idx": {
           "type": "integer",
+          "enum": [
+            0,
+            1
+          ],
           "description": "Index of the first target layer used by the draft model. 0 or 1."
         },
         "draft_vocab_size": {
           "type": "integer",
+          "minimum": 1,
           "description": "Optional size of the reduced vocabulary used by the draft model."
         },
         "dflash_config": {
@@ -68,41 +84,44 @@
             },
             "mask_token_id": {
               "type": "integer",
+              "minimum": 0,
               "description": "Vocabulary ID of the mask token used during draft generation."
             }
-          }
+          },
+          "required": [
+            "sample_from_anchor",
+            "sliding_window_non_causal",
+            "mask_token_id"
+          ],
+          "additionalProperties": false
         },
         "speculative_library": {
           "type": "string",
+          "minLength": 1,
           "description": "Library used to train or implement the speculative model. For example, vllm-project/speculators, sgl-project/SpecForge."
         },
         "speculative_library_version": {
           "type": "string",
+          "minLength": 1,
           "description": "Version of the speculative-model library."
         }
-      }
-    },
-    "layer_types": {
-      "type": "array",
-      "description": "Attention implementation for each draft transformer layer.",
-      "items": {
-        "type": "string",
-        "description": "The attention implementation used by one layer."
-      }
-    },
-    "sliding_window": {
-      "type": [
-        "integer",
-        "null"
+      },
+      "required": [
+        "method",
+        "speculative_tokens",
+        "target_layer_ids",
+        "target_layer_start_idx",
+        "dflash_config"
       ],
-      "description": "Sliding-attention window size, or null when sliding-window attention is disabled."
-    },
-    "use_sliding_window": {
-      "type": "boolean",
-      "description": "Whether sliding-window attention is enabled."
-    },
-    "additionalProperties": {
-      "description": "Architecture-specific base-model configuration property, such as a Qwen3Config constructor argument. Open Spec Config does not define or validate these properties."
+      "additionalProperties": false
     }
+  },
+  "required": [
+    "architectures",
+    "open_spec_config_version",
+    "speculative_config"
+  ],
+  "additionalProperties": {
+    "description": "Architecture-specific base-model configuration property, such as a Qwen3Config constructor argument. Open Spec Config does not define or validate these properties."
   }
 }

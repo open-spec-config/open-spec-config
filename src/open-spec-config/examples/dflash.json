@@ -20,7 +20,7 @@
     "target_layer_start_idx": 0,
     "draft_vocab_size": 32000,
     "dflash_config": {
-      "sample_from_anchor": true,
+      "sample_from_anchor": false,
       "mask_token_id": 248077,
       "sliding_window_non_causal": false
     },
