@@ -3,9 +3,6 @@
   "architectures": [
     "DflashDraftModel"
   ],
-  "auto_map": {
-    "": ""
-  },
   "speculative_config": {
     "method": "dflash",
     "speculative_tokens": 8,
@@ -19,13 +16,11 @@
     ],
     "target_layer_start_idx": 0,
     "draft_vocab_size": 32000,
-    "dflash_config": {
-      "sample_from_anchor": false,
-      "mask_token_id": 248077,
-      "sliding_window_non_causal": false
-    },
-    "speculative_library": "vllm-project/speculators",
-    "speculative_library_version": "0.7.0"
+    "sample_from_anchor": false,
+    "mask_token_id": 248077,
+    "sliding_window_non_causal": false,
+    "training_framework": "vllm-project/speculators",
+    "training_framework_version": "0.7.0"
   },
   "attention_bias": false,
   "attention_dropout": 0.0,

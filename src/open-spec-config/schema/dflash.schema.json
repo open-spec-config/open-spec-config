@@ -6,30 +6,21 @@
   "properties": {
     "open_spec_config_version": {
       "type": "string",
-      "pattern": "^\\d+\\.\\d+\\.\\d+$",
-      "description": "Version of the open speculative-model configuration format."
+      "const": "0.0.0",
+      "description": "Version of the Open Spec Config format. Each schema release validates exactly one version."
     },
     "architectures": {
       "type": "array",
-      "description": "Model implementation classes that can load this configuration.",
+      "description": "Model implementation class that loads this configuration. DFlash checkpoints use DflashDraftModel.",
       "minItems": 1,
-      "uniqueItems": true,
+      "maxItems": 1,
       "items": {
-        "type": "string",
-        "minLength": 1,
-        "description": "A model implementation class name. e.g., DflashDraftModel."
-      }
-    },
-    "auto_map": {
-      "type": "object",
-      "description": "Mapping from auto-model class names to custom implementation import paths.",
-      "additionalProperties": {
-        "type": "string"
+        "const": "DflashDraftModel"
       }
     },
     "speculative_config": {
       "type": "object",
-      "description": "Configuration for speculative token generation and verification.",
+      "description": "Speculative decoding settings: shared metadata plus DFlash-specific fields. Each speculative method has its own standalone schema, so unknown fields are rejected.",
       "properties": {
         "method": {
           "type": "string",
@@ -70,40 +61,28 @@
           "minimum": 1,
           "description": "Optional size of the reduced vocabulary used by the draft model."
         },
-        "dflash_config": {
-          "type": "object",
-          "description": "DFlash draft-generation settings.",
-          "properties": {
-            "sample_from_anchor": {
-              "type": "boolean",
-              "description": "Whether token sampling may start from the anchor token."
-            },
-            "sliding_window_non_causal": {
-              "type": "boolean",
-              "description": "Whether draft sliding-window attention may attend non-causally within its window."
-            },
-            "mask_token_id": {
-              "type": "integer",
-              "minimum": 0,
-              "description": "Vocabulary ID of the mask token used during draft generation."
-            }
-          },
-          "required": [
-            "sample_from_anchor",
-            "sliding_window_non_causal",
-            "mask_token_id"
-          ],
-          "additionalProperties": false
+        "sample_from_anchor": {
+          "type": "boolean",
+          "description": "Whether token sampling may start from the anchor token."
         },
-        "speculative_library": {
+        "mask_token_id": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Vocabulary ID of the mask token used during draft generation."
+        },
+        "sliding_window_non_causal": {
+          "type": "boolean",
+          "description": "Whether draft sliding-window attention may attend non-causally within its window."
+        },
+        "training_framework": {
           "type": "string",
           "minLength": 1,
-          "description": "Library used to train or implement the speculative model. For example, vllm-project/speculators, sgl-project/SpecForge."
+          "description": "Framework used to train the draft model, as a GitHub org/repo, e.g. vllm-project/speculators or sgl-project/SpecForge. Lets a checkpoint be traced back to its training framework, since the same drafter can perform differently across inference engines depending on where it was trained."
         },
-        "speculative_library_version": {
+        "training_framework_version": {
           "type": "string",
           "minLength": 1,
-          "description": "Version of the speculative-model library."
+          "description": "Version of the training framework."
         }
       },
       "required": [
@@ -111,7 +90,9 @@
         "speculative_tokens",
         "target_layer_ids",
         "target_layer_start_idx",
-        "dflash_config"
+        "sample_from_anchor",
+        "mask_token_id",
+        "sliding_window_non_causal"
       ],
       "additionalProperties": false
     }
